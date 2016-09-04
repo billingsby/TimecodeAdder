@@ -91,78 +91,101 @@ var framecount = (hours * 3600 * FRate) + (mins * 60 * FRate) + (secs * FRate) +
 return framecount;
 }
 
-function timeFormat(nStr)
-{
-   //  nStr += '';
-   // console.log(nStr);
-   //  x = nStr.split('.');
-   //  console.log(x);
-   //  x1 = x[0];
-   //  x2 = x.length > 1 ? '.' + x[1] : '';
-    // var rgx = /(\d+)(\d{2})/;
-    // while (rgx.test(nStr)) {
-    //     x1 = x1.replace(rgx, '$1' + ':' + '$2');
-    // }
-    // return x1 + x2;
-
+function timeFormat(nStr) {
     while (nStr.length < 8) {
         nStr = '0' + nStr;
-        console.log(nStr);
     } 
     if (nStr.length == 8) {
-        //reformat and return phone number
         return nStr.replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, '$1' + ':' + '$2' + ':' + '$3' + ';' + '$4');
     }
 }
+
+var newItem = function(item) {
+    // clone our result template code
+    var result = $('.templates .segList').clone();
+    
+    // Set the user properties in result
+    var itemName = result.find('.list-item h3');
+    itemName.text(item);
+
+    var itemNum = result.find('#item');
+    itemNum.attr('id', 'item');
+
+    var timeNum = result.find('#time');
+    timeNum.attr('id', 'time');
+
+    return result;
+
+};
 
 $(document).ready(function() {
 
     var time = $('#time').val();
 
     //Clears text input when clicked 
- $('.add-item').click(function() {
+$('body').on('click', '.add-item', function() {
   this.value="";
- }); 
- $('.add-time').click(function() {
+ });
+
+ $('body').on('click', '.add-time', function() {
   this.value="";
  }); 
 
-    //Adds Item to List
-$('.add-item').keyup(function (e) {
-  if (e.which == 13) {
-    $('.item-list').append('<li class=\"list-item\"><label for=\"' + $('.add-item').val() + '\"></label><h3 class=\"item\">' +
-    $('.add-item').val() + '</h3></li><li class="list-item-time"><input class="add-time" id="add-time" type="text" value="Enter Time"></li>');
+ var timeNum = 1;
+ var itemNum= 1;
+
+$("body").on('keyup', '.add-item', function(event) {
+    itemNum += 1;
+    timeNum++;
+
+    if (event.keyCode == 13) {
+    console.log('Enter was pressed');
+    // $('.list-item').clone().attr('id', itemNum).appendTo($('.item-list'));
+    var item = $('.add-item').val();
+    console.log(item);
+  var addItem = newItem(item);
+            $('.list').append(addItem);
+    //   var listItem = $('#item1');
+  
+
+    // var nextHtml = listItem.clone(true).appendTo(listItem);
+    // nextHtml.attr('id', 'item' + itemNum);
+    // nextHtml.innerHTML('#item', $('.add-item').val());
     
+    // //   var hasRmBtn = $('.rmbtn', nextHtml).length > 0;
+    // // if (!hasRmBtn) {
+    // //   var rm = "<button type='button' class='rmbtn'>Remove</button>"
+    // //   $('.addmoreadd', nextHtml).append(rm);
+    // // }
+    // listItem.after(nextHtml); 
     $('.add-item').val('Add a segment');
-    $('.add-item').blur();   
-  }
+    $('.add-item').blur(); 
+    }
+ });
+
+$("body").on("click", ".rmbtn", function() {
+    $(this).parents('.list-item').remove();
 });
 
- //Time Entry
-// $('.add-time').keyup(function (e) {
+    //Adds Item to List
+// $('.add-item').keyup(function (e) {
 //   if (e.which == 13) {
-//     var time = $('.add-time').val();
-//     var regtime = "/([0-1][0-9]|2[0-3])(:[0-5][0-9]){2};([0-1][0-9]|2[0-4])/g";
-//     console.log(time);
-
-
-
-// for (i=0; i<time.length; i++) {
-//     if (time[i] < 10) {
-//     timecode[i] = "0" + time[i];
-// }
-
-// return timecode.join(':');
-// }
-//     $('.add-time').val(timecode);
-//     $('.add-time').blur();   
+//     $('.item-list').append('<li class=\"list-item\"><label for=\"' + $('.add-item').val() + '\"></label><h3 class=\"item\">' +
+//     $('.add-item').val() + '</h3></li><li class="list-item-time"><input class="add-time" id="add-time" type="text" value="Enter Time"></li>');
+//     $('.add-item').val('Add a segment');
+//     $('.add-item').blur();   
 //   }
 // });
 
-$('.add-time').keyup(function (e) {
-  if (e.which == 13) {
+    //Time Entry
+$("body").on('keyup', '.add-time', function(event) {
+  if (event.keyCode == 13) {
     var time = $('.add-time').val();
-    $('.add-time').val(timeFormat(time));
+    console.log(time);
+    var timeFix = timeFormat(time);
+    console.log(timeFix);
+
+    $('.add-time').attr('value', timeFix);
     
     $('.add-time').blur();   
   }
