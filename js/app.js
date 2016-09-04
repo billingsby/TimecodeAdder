@@ -50,8 +50,7 @@
 // }
 
 
-function CnvToTime(FrameCount)
-{
+function CnvToTime(FrameCount) {
 var FRate = 29.97;
 var TotalSecs = parseInt(FrameCount / FRate, 10);
 var hours = parseInt(TotalSecs / 3600, 10);
@@ -79,8 +78,7 @@ for (i=0;i<timecode.length;i++)
 return timecode.join(':');
 }
 
-function CnvToFrames(timecode)
-{
+function CnvToFrames(timecode) {
 var FRate = 29.97;
 var hours = parseInt(timecode.slice(0,2),10);
 var mins = parseInt(timecode.slice(3,5),10);
@@ -93,8 +91,81 @@ var framecount = (hours * 3600 * FRate) + (mins * 60 * FRate) + (secs * FRate) +
 return framecount;
 }
 
+function timeFormat(nStr)
+{
+   //  nStr += '';
+   // console.log(nStr);
+   //  x = nStr.split('.');
+   //  console.log(x);
+   //  x1 = x[0];
+   //  x2 = x.length > 1 ? '.' + x[1] : '';
+    // var rgx = /(\d+)(\d{2})/;
+    // while (rgx.test(nStr)) {
+    //     x1 = x1.replace(rgx, '$1' + ':' + '$2');
+    // }
+    // return x1 + x2;
+
+    while (nStr.length < 8) {
+        nStr = '0' + nStr;
+        console.log(nStr);
+    } 
+    if (nStr.length == 8) {
+        //reformat and return phone number
+        return nStr.replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, '$1' + ':' + '$2' + ':' + '$3' + ';' + '$4');
+    }
+}
+
 $(document).ready(function() {
 
+    var time = $('#time').val();
 
+    //Clears text input when clicked 
+ $('.add-item').click(function() {
+  this.value="";
+ }); 
+ $('.add-time').click(function() {
+  this.value="";
+ }); 
+
+    //Adds Item to List
+$('.add-item').keyup(function (e) {
+  if (e.which == 13) {
+    $('.item-list').append('<li class=\"list-item\"><label for=\"' + $('.add-item').val() + '\"></label><h3 class=\"item\">' +
+    $('.add-item').val() + '</h3></li><li class="list-item-time"><input class="add-time" id="add-time" type="text" value="Enter Time"></li>');
+    
+    $('.add-item').val('Add a segment');
+    $('.add-item').blur();   
+  }
+});
+
+ //Time Entry
+// $('.add-time').keyup(function (e) {
+//   if (e.which == 13) {
+//     var time = $('.add-time').val();
+//     var regtime = "/([0-1][0-9]|2[0-3])(:[0-5][0-9]){2};([0-1][0-9]|2[0-4])/g";
+//     console.log(time);
+
+
+
+// for (i=0; i<time.length; i++) {
+//     if (time[i] < 10) {
+//     timecode[i] = "0" + time[i];
+// }
+
+// return timecode.join(':');
+// }
+//     $('.add-time').val(timecode);
+//     $('.add-time').blur();   
+//   }
+// });
+
+$('.add-time').keyup(function (e) {
+  if (e.which == 13) {
+    var time = $('.add-time').val();
+    $('.add-time').val(timeFormat(time));
+    
+    $('.add-time').blur();   
+  }
+});
 
 })

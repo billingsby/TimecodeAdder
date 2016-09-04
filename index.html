@@ -11,76 +11,56 @@
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/css/bootstrapValidator.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
   </head>
   <body>
 
-<div class="col-xs-12 col-md-6">
-        
-      
-
-        <!-- Contact Form -->
-
-      <form class="well form-horizontal" action=" " method="post" role="form" id="contact-form">
-        <fieldset>
-
-        <!-- Text input-->
-        <div class="form-group">
-          <div class="col-md-12 inputGroupContainer">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input  name="name" placeholder="Name" class="form-control" id="name" type="text">
-            </div>
-          </div>
-        </div>
-     
-        <div class="form-group">
-          <div class="col-md-12 inputGroupContainer">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-              <input name="email" placeholder="E-Mail Address" class="form-control" id="email" type="text">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-md-12 inputGroupContainer">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-              <input name="phone" placeholder="(845)555-1212" class="form-control" id="phone" type="text">
-            </div>
-          </div>
-        </div>
-  
-        <div class="form-group">
-          <div class="col-md-12 inputGroupContainer">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-              <textarea class="form-control" name="comment" placeholder="Message" id="message"></textarea>
-            </div>
-          </div>
-        </div>
-
-        <!-- Success message -->
-        <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Thanks for reaching out! I will get back to you shortly.</div>
-
-        <!-- Button -->
-        <div class="form-group text-center">
-          <!-- <div class="col-md-12 text-center"> -->
-            <button type="submit" class="btn btn-primary" id="formSubmit" >Send <span class="glyphicon glyphicon-send"></span></button>
-          <!-- </div> -->
-        </div>
-
-        </fieldset>
-      </form>
+  <div class="timing col-xs-12 col-md-6">
+    <div class="row well">
+      <div class="showLength col-md-4">
+        <h2>Show Length</h2>
       </div>
+      <div class="timeDiff col-md-4">
+        <h2>1:42;04</h2>
+      </div> 
+      <div class="trt col-md-4">
+        <h2>TRT</h2>
+      </div> 
+      
+    </div>
+  </div>
+  
+
+<div class="col-xs-12 col-md-4">
+  <section class="list well">
+    <div class="content">
+      <ul class="item-list list-unstyled list-inline">
+        <li class="list-item">
+          <label for="Segment 1"></label>
+          <h3 class="item">Segment 1</h3>
+        </li>
+        <li class="list-item-time">
+          <input class="add-time" id="add-time1" type="text" value= "Enter Time" >
+        </li>
+      </ul> 
+      <div class="new-item">
+        <i class="glyphicon glyphicon-plus"></i><input class="add-item" id="add-item" type="text" value= "add a segment" >
+      </div>
+
+      
+    </div>
+  </section>
+
+        
+</div>
+
+
 
       <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-   <script type="text/javascript" src="js/modernizr.js"></script>
-   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
   <script type="text/javascript" src="js/app.js"></script>
 
   </body>
