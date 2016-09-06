@@ -91,28 +91,29 @@ var framecount = (hours * 3600 * FRate) + (mins * 60 * FRate) + (secs * FRate) +
 return framecount;
 }
 
-function timeFormat(nStr) {
-    while (nStr.length < 8) {
-        nStr = '0' + nStr;
+function timeFormat(time) {
+    while (time.length < 8) {
+        time = '0' + time;
     } 
-    if (nStr.length == 8) {
-        return nStr.replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, '$1' + ':' + '$2' + ':' + '$3' + ';' + '$4');
+    if (time.length == 8) {
+        return time.replace(/(\d{2})(\d{2})(\d{2})(\d{2})/, '$1' + ':' + '$2' + ':' + '$3' + ';' + '$4');
     }
 }
 
-var newItem = function(item, timeNum, itemNum) {
-    // clone our result template code
+var newItem = function(item, timeID, itemID) {
+
+    // clone result template code
     var result = $('.templates .segList').clone();
     
-    // Set the user properties in result
+    // Set properties in result
     var itemName = result.find('.list-item h3');
     itemName.text(item);
 
     var itemNum = result.find('#item');
-    itemNum.attr('id', 'item' + itemNum);
+    itemNum.attr('id', itemID);
 
     var timeNum = result.find('#time');
-    timeNum.attr('id', time);
+    timeNum.attr('id', timeID);
 
     return result;
 
@@ -131,67 +132,49 @@ $('body').on('click', '.add-item', function() {
   this.value="";
  }); 
 
+ //Time and item variables for incrementing
  var timeNum = 0;
  var itemNum = 0;
 
+ //Clone and add items on Enter
+
 $("body").on('keyup', '.add-item', function(event) {
     
-
     if (event.keyCode == 13) {
-    // $('.list-item').clone().attr('id', itemNum).appendTo($('.item-list'));
     itemNum += 1;
     timeNum += 1;
-    console.log(timeNum);
-    console.log(itemNum);
     var item = $('.add-item').val();
     var timeID = 'time' + timeNum;
     var itemID = 'item' + itemNum;
     var addItem = newItem(item, timeID, itemID);
     $('.list').append(addItem);
-    //   var listItem = $('#item1');
-  
-
-    // var nextHtml = listItem.clone(true).appendTo(listItem);
-    // nextHtml.attr('id', 'item' + itemNum);
-    // nextHtml.innerHTML('#item', $('.add-item').val());
-    
-    // //   var hasRmBtn = $('.rmbtn', nextHtml).length > 0;
-    // // if (!hasRmBtn) {
-    // //   var rm = "<button type='button' class='rmbtn'>Remove</button>"
-    // //   $('.addmoreadd', nextHtml).append(rm);
-    // // }
-    // listItem.after(nextHtml); 
     $('.add-item').val('Add a segment');
     $('.add-item').blur(); 
     }
  });
 
-// $("body").on("click", ".rmbtn", function() {
-//     $(this).parents('.list-item').remove();
-// });
-
-    //Adds Item to List
-// $('.add-item').keyup(function (e) {
-//   if (e.which == 13) {
-//     $('.item-list').append('<li class=\"list-item\"><label for=\"' + $('.add-item').val() + '\"></label><h3 class=\"item\">' +
-//     $('.add-item').val() + '</h3></li><li class="list-item-time"><input class="add-time" id="add-time" type="text" value="Enter Time"></li>');
-//     $('.add-item').val('Add a segment');
-//     $('.add-item').blur();   
-//   }
-// });
 
     //Time Entry
 $("body").on('keyup', '.add-time', function(event) {
   if (event.keyCode == 13) {
-    var time = $('.add-time').val();
-    console.log(time);
+    var timeID = this.id;
+    var time = $('#' + timeID).val();
     var timeFix = timeFormat(time);
-    console.log(timeFix);
+    $('#' + timeID).val(timeFix);
 
-    $('.add-time').attr('value', timeFix);
-    
+    //Add to TRT
+    var oldTRT = $('#trt, h1').html();
+    var oldTRTFrames = CnvToFrames(oldTRT);
+
+    console.log(oldTRTFrames);
+    var newTime = CnvToFrames(timeFix);
+    var totalFrames = oldTRTFrames + newTime;
+    var trt = CnvToTime(totalFrames);
+    $('#trt, h1').html(trt);
     $('.add-time').blur();   
   }
 });
+
+
 
 })
