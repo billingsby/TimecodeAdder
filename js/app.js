@@ -100,7 +100,7 @@ function timeFormat(nStr) {
     }
 }
 
-var newItem = function(item) {
+var newItem = function(item, timeNum, itemNum) {
     // clone our result template code
     var result = $('.templates .segList').clone();
     
@@ -109,10 +109,10 @@ var newItem = function(item) {
     itemName.text(item);
 
     var itemNum = result.find('#item');
-    itemNum.attr('id', 'item');
+    itemNum.attr('id', 'item' + itemNum);
 
     var timeNum = result.find('#time');
-    timeNum.attr('id', 'time');
+    timeNum.attr('id', time);
 
     return result;
 
@@ -131,20 +131,23 @@ $('body').on('click', '.add-item', function() {
   this.value="";
  }); 
 
- var timeNum = 1;
- var itemNum= 1;
+ var timeNum = 0;
+ var itemNum = 0;
 
 $("body").on('keyup', '.add-item', function(event) {
-    itemNum += 1;
-    timeNum++;
+    
 
     if (event.keyCode == 13) {
-    console.log('Enter was pressed');
     // $('.list-item').clone().attr('id', itemNum).appendTo($('.item-list'));
+    itemNum += 1;
+    timeNum += 1;
+    console.log(timeNum);
+    console.log(itemNum);
     var item = $('.add-item').val();
-    console.log(item);
-  var addItem = newItem(item);
-            $('.list').append(addItem);
+    var timeID = 'time' + timeNum;
+    var itemID = 'item' + itemNum;
+    var addItem = newItem(item, timeID, itemID);
+    $('.list').append(addItem);
     //   var listItem = $('#item1');
   
 
@@ -163,9 +166,9 @@ $("body").on('keyup', '.add-item', function(event) {
     }
  });
 
-$("body").on("click", ".rmbtn", function() {
-    $(this).parents('.list-item').remove();
-});
+// $("body").on("click", ".rmbtn", function() {
+//     $(this).parents('.list-item').remove();
+// });
 
     //Adds Item to List
 // $('.add-item').keyup(function (e) {
