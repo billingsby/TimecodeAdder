@@ -2,81 +2,95 @@
 
 //Converts time in seconds to a broadcast timecode
 //timeFormat: 'PAL', 'PALp', 'NTSC', 'STANDARD'
-// function MillToTimecode(seconds, TimeFormat) {
+function CnvToTime(seconds, TimeFormat) {
 
-//     //alert(milliseconds);
+    //alert(milliseconds);
 
-//     var h = Math.floor(seconds / 3600);
+    var h = Math.floor(seconds / 3600);
 
-//     seconds = seconds - h * 3600;
+    seconds = seconds - h * 3600;
 
-//     var m = Math.floor(seconds / 60);
+    var m = Math.floor(seconds / 60);
 
-//     seconds = seconds - m * 60;
+    seconds = seconds - m * 60;
 
-//     var s = Math.floor(seconds);
+    var s = Math.floor(seconds);
 
-//     seconds = seconds - s;
+    seconds = seconds - s;
 
-//     if (TimeFormat == 'PAL') {
-//         var f = Math.floor((seconds * 1000) / 40);
-//     }
-//     else if (TimeFormat == 'NTSC') {
-//         var f = Math.floor((seconds * 1000) / (100 / 3));
-//     }
-//     else if (TimeFormat == 'PALp') {
-//         var f = Math.floor((seconds * 1000) / 20);
-//     }
-//     else if (TimeFormat == 'STANDARD') {
-//         var f = Math.floor(seconds * 1000);
-//     }
+    if (TimeFormat == 'PAL') {
+        var f = Math.floor((seconds * 1000) / 40);
+    }
+    else if (TimeFormat == 'NTSC') {
+        var f = Math.floor((seconds * 1000) / (100 / 3));
+    }
+    else if (TimeFormat == 'PALp') {
+        var f = Math.floor((seconds * 1000) / 20);
+    }
+    else if (TimeFormat == 'STANDARD') {
+        var f = Math.floor(seconds * 1000);
+    }
 
-//     // Check if we need to show hours
-//     h = (h < 10) ? ("0" + h) + ":" : h + ":";
+    // Check if we need to show hours
+    h = (h < 10) ? ("0" + h) + ":" : h + ":";
 
-//     // If hours are showing, we may need to add a leading zero.
-//     // Always show at least one digit of minutes.
-//     m = (((h) && m < 10) ? "0" + m : m) + ":";
+    // If hours are showing, we may need to add a leading zero.
+    // Always show at least one digit of minutes.
+    m = (((h) && m < 10) ? "0" + m : m) + ":";
 
-//     // Check if leading zero is need for seconds
-//     s = ((s < 10) ? "0" + s : s) + ":";
+    // Check if leading zero is need for seconds
+    s = ((s < 10) ? "0" + s : s) + ":";
 
-//     f = (f < 10) ? "0" + f : f;
+    f = (f < 10) ? "0" + f : f;
 
-//     if (TimeFormat == 'STANDARD')
-//         f = (f < 100) ? "0" + f : f;
+    if (TimeFormat == 'STANDARD')
+        f = (f < 100) ? "0" + f : f;
 
-//     return h + m + s + f;
+    return h + m + s + f;
+}
+
+
+// function CnvToTime(FrameCount) {
+//     console.log(FrameCount);
+// var FRate = 29.97;
+// var TotalSecs = parseInt(FrameCount / FRate, 10);
+// console.log(TotalSecs);
+// var hours = parseInt(TotalSecs / 3600, 10);
+// console.log(hours);
+// var mins = parseInt((TotalSecs - hours * 3600) / 60, 10);
+// console.log(mins);
+// var secs = TotalSecs - hours * 3600 - mins * 60;
+// console.log(secs);
+// var frames = Math.round(FrameCount - TotalSecs * 30);
+// console.log(frames);
+// var dropframes = (hours * 108) + ((mins - parseInt(mins / 10, 10)) * 2);
+// console.log(dropframes);
+
+// if ((frames + dropframes) > 30) {
+//     secs =  secs + 1; 
+//     frames = "1";
+// }
+// else if ((frames + dropframes) == 30) {
+//     secs = secs + 1; frames = "0";
+// }
+// else {
+//     frames = frames + dropframes;
 // }
 
+// //INSERT FOR EACH LOOP HERE TO FORMAT TIMECODE ARRAY
 
-function CnvToTime(FrameCount) {
-var FRate = 29.97;
-var TotalSecs = parseInt(FrameCount / FRate, 10);
-var hours = parseInt(TotalSecs / 3600, 10);
-var mins = parseInt((TotalSecs - hours * 3600) / 60, 10);
-var secs = TotalSecs - hours * 3600 - mins * 60;
-var frames = (FrameCount - TotalSecs * 30);
-var dropframes = (hours * 108) + ((mins - parseInt(mins / 10, 10)) * 2);
+// var i;
+// var timecode = new Array();
+// timecode[0] = hours;
+// timecode[1] = mins;
+// timecode[2] = secs;
+// timecode[3] = frames
 
-if ((frames + dropframes) > 30) {secs =  secs + 1; frames = "1";}
-else if ((frames + dropframes) == 30) {secs = secs + 1; frames = "0";}
-else {frames = frames + dropframes;}
+// for (i=0;i<timecode.length;i++)
+// {if(timecode[i] < 10) timecode[i] = "0" + timecode[i];}
 
-//INSERT FOR EACH LOOP HERE TO FORMAT TIMECODE ARRAY
-
-var i;
-var timecode = new Array();
-timecode[0] = hours;
-timecode[1] = mins;
-timecode[2] = secs;
-timecode[3] = frames
-
-for (i=0;i<timecode.length;i++)
-{if(timecode[i] < 10) timecode[i] = "0" + timecode[i];}
-
-return timecode.join(':');
-}
+// return timecode.join(':');
+// }
 
 function CnvToFrames(timecode) {
 var FRate = 29.97;
@@ -163,13 +177,18 @@ $("body").on('keyup', '.add-time', function(event) {
     $('#' + timeID).val(timeFix);
 
     //Add to TRT
+    var FRate = 29.97;
+    var format = 'NTSC';
     var oldTRT = $('#trt, h1').html();
     var oldTRTFrames = CnvToFrames(oldTRT);
 
     console.log(oldTRTFrames);
     var newTime = CnvToFrames(timeFix);
     var totalFrames = oldTRTFrames + newTime;
-    var trt = CnvToTime(totalFrames);
+    var totalSecs = totalFrames / FRate;
+    console.log(totalSecs);
+    
+    var trt = CnvToTime(totalSecs, format);
     $('#trt, h1').html(trt);
     $('.add-time').blur();   
   }
